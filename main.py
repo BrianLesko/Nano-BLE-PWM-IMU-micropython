@@ -32,12 +32,16 @@ while (True):
     
     if uart.any():
         data = uart.readline()  # Read a line of data from the UART
+        data_str = data.decode().strip()  # Decode byte data to string
         print(data.decode())  # Decode byte data to string and print it
         
-        if isinstance(data, (int, float)):
-            set_servo_angle(float(data)*180)
-            print(f"Set the servo angle to {data*180}")
+        try:
+            data_float = float(data_str)  # Try to convert the data to a float
+            set_servo_angle(data_float*180)
+            print(f"Set the servo angle to {data_float*180}")
             print("")
+        except ValueError:
+            pass  # If data is not a number, do nothing
             
         if data = 'IMU':
             print('Accelerometer: x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.accel()))
