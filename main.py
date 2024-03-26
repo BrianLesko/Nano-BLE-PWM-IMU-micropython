@@ -43,7 +43,7 @@ while (True):
         except ValueError:
             pass  # If data is not a number, do nothing
             
-        if data = 'IMU':
+        if data_str == 'IMU':
             print('Accelerometer: x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.accel()))
             print('Gyroscope:     x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.gyro()))
             print('Magnetometer:  x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.magnet()))
