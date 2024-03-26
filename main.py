@@ -39,7 +39,7 @@ while (True):
             print(f"Set the servo angle to {data*180}")
             print("")
             
-        if isinstance(data,str):
+        if data = 'IMU':
             print('Accelerometer: x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.accel()))
             print('Gyroscope:     x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.gyro()))
             print('Magnetometer:  x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.magnet()))
