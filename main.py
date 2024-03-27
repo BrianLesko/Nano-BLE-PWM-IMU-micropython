@@ -5,6 +5,10 @@
 import time
 import imu
 from machine import Pin, I2C
+from board import LED
+led_red = LED(1)
+led_green = LED(2)
+led_blue = LED(3)
 
 # PWM
 from machine import Pin, PWM, ADC
@@ -27,13 +31,18 @@ def set_servo_angle(angle):
     pulse_width = (angle / 180) * 1000 + 1000  # Scale from 1ms to 2ms
     duty = int((pulse_width / 20000) * 65535)  # Convert to duty cycle (0-65535 range)
     pwm.duty_u16(duty)
-
-while (True):
     
+def check_uart():
     if uart.any():
         data = uart.readline()  # Read a line of data from the UART
         data_str = data.decode().strip()  # Decode byte data to string
         print(data.decode())  # Decode byte data to string and print it
+        
+        if data_str == 'IMU':
+            print('Accelerometer: x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.accel()))
+            print('Gyroscope:     x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.gyro()))
+            print('Magnetometer:  x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.magnet()))
+            print("")
         
         try:
             data_float = float(data_str)  # Try to convert the data to a float
@@ -41,23 +50,24 @@ while (True):
             print(f"Set the servo angle to {data_float*180}")
             print("")
         except ValueError:
+            print("there was an error")
             pass  # If data is not a number, do nothing
+
+while (True):
+   
+    # Turn on LEDs
+    led_red.on()
+    led_green.on()
+    led_blue.on()
+    
+    check_uart()        
             
-        if data_str == 'IMU':
-            print('Accelerometer: x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.accel()))
-            print('Gyroscope:     x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.gyro()))
-            print('Magnetometer:  x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.magnet()))
-            print("")
+    # Turn off LEDs
+    led_red.off()
+    led_green.off()
+    led_blue.off()
+    
+    check_uart()
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    
