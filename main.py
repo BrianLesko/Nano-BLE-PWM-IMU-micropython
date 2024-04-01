@@ -35,18 +35,17 @@ def set_servo_angle(angle):
     
 def check_uart():
     while uart.any():
-        data = uart.readline()  # Read a line of data from the UART
-        data_str = data.decode().strip()  # Decode byte data to string
-        print(data.decode())  # Decode byte data to string and print it
+        data = uart.read().decode('utf-8')
+        print(data)  # Decode byte data to string and print it
         
-        if data_str == 'IMU':
+        if data == 'IMU':
             print('Accelerometer: x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.accel()))
             print('Gyroscope:     x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.gyro()))
             print('Magnetometer:  x:{:>8.3f} y:{:>8.3f} z:{:>8.3f}'.format(*imu.magnet()))
             print("")
         
         try:
-            data_float = float(data_str)  # Try to convert the data to a float
+            data_float = float(data)  # Try to convert the data to a float
             #set_servo_angle(data_float*180)
             print(f"Set the servo angle to {data_float*180}")
             print("")
