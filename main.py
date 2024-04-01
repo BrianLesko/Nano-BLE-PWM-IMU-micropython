@@ -34,7 +34,7 @@ def set_servo_angle(angle):
     pwm.duty_u16(duty)
     
 def check_uart():
-    if uart.any():
+    while uart.any():
         data = uart.readline()  # Read a line of data from the UART
         data_str = data.decode().strip()  # Decode byte data to string
         print(data.decode())  # Decode byte data to string and print it
