@@ -20,7 +20,8 @@ pwm.freq(50) # standard is 50 Hz for Servos
 
 # Serial communication
 from machine import UART
-uart = UART(0, 9600)
+BAUD = 9600
+uart = UART(0, BAUD)
 
 # IMU
 bus = I2C(1, scl=Pin(15), sda=Pin(14))
@@ -46,7 +47,7 @@ def check_uart():
         
         try:
             data_float = float(data_str)  # Try to convert the data to a float
-            set_servo_angle(data_float*180)
+            #set_servo_angle(data_float*180)
             print(f"Set the servo angle to {data_float*180}")
             print("")
         except ValueError:
@@ -60,14 +61,15 @@ while (True):
     led_green.on()
     led_blue.on()
     
-    check_uart()        
+    check_uart()
+    time.sleep(0.1)     
             
     # Turn off LEDs
     led_red.off()
     led_green.off()
     led_blue.off()
     
-    check_uart()
+    time.sleep(0.1)  # Sleep for 100ms
         
         
     
