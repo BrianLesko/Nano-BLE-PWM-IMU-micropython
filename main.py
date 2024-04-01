@@ -20,7 +20,7 @@ pwm.freq(50) # standard is 50 Hz for Servos
 
 # Serial communication
 from machine import UART
-BAUD = 9600
+BAUD = 115200
 uart = UART(0, BAUD)
 
 # IMU
