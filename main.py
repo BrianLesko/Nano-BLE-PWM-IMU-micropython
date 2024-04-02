@@ -3,7 +3,13 @@ import machine
 # Initialize UART
 # UART0 is typically used for communication over GPIO pins
 # GPIO1 (TX) and GPIO3 (RX) with a baud rate of 115200
-uart = machine.UART(0, baudrate=115200)  # Use UART0 with a baud rate of 115200
+uart = machine.UART(0, baudrate=115200)
+uart.write('testing')
+while True:
+    data = uart.read()
+    if data:
+        print("Received:", data)
+        uart.write(data)  # Echo the received data back to the sender
 
 # Brian Lesko 
 # 3/25/2024
