@@ -64,14 +64,27 @@ void loop() {
           Serial.println(pitch);
         }
       }
-    } else {
-      float number = receivedMessage.toFloat();
+    } else if (receivedMessage.startsWith("steer:")) {
+      float number = receivedMessage.substring(6).toFloat(); // Extract the number after "steer:"
       if (number >= 0.0 && number <= 1.0) {
         int angle = round((number*.3 +.35) * 180);
         if (angle != lastAngle) {  // Only write to the servo if the angle has changed
           Serial.print("Received number: ");
           Serial.println(number);
           servo.write(angle); // control pwm D9 servo
+          lastAngle = angle;  // Update the last angle
+        }
+      }
+    } else if (receivedMessage.startsWith("throttle:")) {
+      float number = receivedMessage.substring(9).toFloat(); // Extract the number after "throttle:"
+      if (number >= 0.0 && number <= 255.0) {
+        int angle = number; //round(number * 180);
+        // Assuming you have another servo for throttle control attached to pin 10
+        servo.attach(10);
+        if (angle != lastAngle) {  // Only write to the servo if the angle has changed
+          Serial.print("Received throttle: ");
+          Serial.println(number);
+          servo.write(angle); // control pwm D10 servo
           lastAngle = angle;  // Update the last angle
         }
       }
