@@ -80,11 +80,12 @@ void loop() {
       if (number >= 0.0 && number <= 255.0) {
         int angle = number; //round(number * 180);
         // Assuming you have another servo for throttle control attached to pin 10
-        servo.attach(10);
+        //servo.attach(10);
         if (angle != lastAngle) {  // Only write to the servo if the angle has changed
           Serial.print("Received throttle: ");
           Serial.println(number);
-          servo.write(angle); // control pwm D10 servo
+          analogWrite(10, number);
+          //servo.write(angle); // control pwm D10 servo
           lastAngle = angle;  // Update the last angle
         }
       }
